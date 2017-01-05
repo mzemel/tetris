@@ -7,10 +7,27 @@ class Utility
     BLOCK = 1
   end
 
-  def self.can_move?
+  # Should be done once per frame
+  def self.add_counter
     @counter += 1
+  end
+
+  def self.can_move?
     @counter % move_rate == 0
   end
+
+  def self.can_rotate?
+    if @counter % rotate_rate == 0
+      @cooldown = true
+    end
+    if @counter % rotate_rate == 0 || @cooldown
+      @cooldown = false
+      return true
+    else
+      false
+    end
+  end
+
 
   def self.left_button?
     Gosu::button_down?(Gosu::KbLeft) || Gosu::button_down?(Gosu::GpLeft)
@@ -47,5 +64,9 @@ class Utility
     else
       10
     end
+  end
+
+  def self.rotate_rate
+    5
   end
 end

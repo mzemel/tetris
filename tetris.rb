@@ -19,6 +19,7 @@ class Tetris < Gosu::Window
   end
 
   def update
+    Utility.add_counter
     if game_over
       handle_game_over
     else

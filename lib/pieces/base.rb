@@ -18,6 +18,7 @@ module Pieces
     end
 
     def update
+      apply_rotation # Should feel quicker than movement; has its own rate
       return unless active? && Utility.can_move?
 
       @collisions = CollisionDetector.new(
@@ -30,7 +31,7 @@ module Pieces
         game.row_clearer.clear_applicable # Move to tetris.rb?
       else
         apply_movements
-        apply_rotation
+        # apply_rotation
         move_down if Utility.down_button? # remove conditional after debugging
       end
     end
@@ -66,6 +67,7 @@ module Pieces
     # Rotation
 
     def apply_rotation
+      return unless active? && Utility.can_rotate?
       rotate_clockwise        if Utility.x_button?
       rotate_counterclockwise if Utility.z_button?
       case @direction

@@ -1,5 +1,6 @@
 class Utility
   PX_PER_MOVE = 50
+  @counter = 0
 
   module ZIndex
     BG = 0
@@ -7,7 +8,8 @@ class Utility
   end
 
   def self.can_move?
-    Gosu::milliseconds % move_rate == 0
+    @counter += 1
+    @counter % move_rate == 0
   end
 
   def self.left_button?
@@ -43,7 +45,7 @@ class Utility
     when left_button? || right_button?
       4
     else
-      20
+      10
     end
   end
 end

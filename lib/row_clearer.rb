@@ -15,16 +15,14 @@ class RowClearer
 
   def clear_rows(rows)
     rows.each do |row|
-      blocks_for_row(row).each do |block|
-        block.destroy
-        block.piece.sink(row)
-      end
+      blocks_in_row(row).each { |block| block.destroy }
+      all_pieces_above_row(row).each { |piece| piece.sink(row) }
     end
   end
 
   def clearable_rows
     all_rows.select do |row|
-      true if Set.new(blocks_for_row(row).map(&:x)) == all_columns_set
+      true if Set.new(blocks_in_row(row).map(&:x)) == all_columns_set
     end
   end
 
@@ -42,7 +40,14 @@ class RowClearer
     pieces.collect(&:blocks).flatten
   end
 
-  def blocks_for_row(row)
-    all_blocks.select { |b| b.y == row }
+  def blocks_in_row(row)
+    all_blocks.select { |block| block.y == row }
+  end
+
+  def all_pieces_above_row(row)
+    all_blocks
+      .select { |block| block.y < row }
+      .map(&:piece)
+      .uniq
   end
 end

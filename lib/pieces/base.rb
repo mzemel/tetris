@@ -25,7 +25,7 @@ module Pieces
       else
         apply_movements
         apply_rotation
-        move_down
+        move_down if Utility.down_button? # remove conditional after debugging
       end
     end
 

@@ -43,7 +43,7 @@ class Utility
     when left_button? || right_button?
       4
     else
-      6
+      20
     end
   end
 end

@@ -7,7 +7,7 @@ class RowClearer
     @pieces = game.pieces
   end
 
-  def clear
+  def clear_applicable
     clear_rows(clearable_rows)
   end
 

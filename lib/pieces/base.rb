@@ -8,6 +8,12 @@ module Pieces
     def initialize(game: game)
       @game = game
       @state = :active
+      @longest_edge ||= 0
+
+      # Farthest x or y can be to rotate and keep all blocks on the board
+      @safe_x_pos = Object.const_get("#{game.class}::WIDTH")  - @longest_edge * Block::WIDTH
+      @safe_y_pos = Object.const_get("#{game.class}::HEIGHT") - @longest_edge * Block::HEIGHT
+
       @direction = DIRECTIONS.first
     end
 
@@ -75,12 +81,12 @@ module Pieces
     end
 
     def rotate_clockwise
-      index = DIRECTIONS.index(@direction)
+      index = DIRECTIONS.index(@direction) || 0
       @direction = DIRECTIONS[index + 1]
     end
 
     def rotate_counterclockwise
-      index = DIRECTIONS.index(@direction)
+      index = DIRECTIONS.index(@direction) || 0
       @direction = DIRECTIONS[index - 1]
     end
 

@@ -22,7 +22,7 @@ class RowClearer
 
   def clearable_rows
     all_rows.select do |row|
-      true if Set.new(blocks_in_row(row).map(&:x)) == all_columns_set
+      Set.new(blocks_in_row(row).map(&:x)) == all_columns
     end
   end
 
@@ -30,8 +30,8 @@ class RowClearer
     @all_rows ||= (Tetris::HEIGHT / Block::HEIGHT).times.collect { |n| n*50 }
   end
 
-  def all_columns_set
-    @all_columns_set ||= Set.new(
+  def all_columns
+    @all_columns ||= Set.new(
       (Tetris::WIDTH / Block::WIDTH).times.collect { |n| n*50 }
     )
   end

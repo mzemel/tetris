@@ -1,14 +1,11 @@
 module Pieces
   class I < Base
+
     def initialize(game: game)
       @blocks = 4.times.collect do |i|
         Block.new(x: 0, y: i*Block::HEIGHT, piece: self)
       end
-
-      # Farthest x or y can be to rotate and keep all blocks on the board
-      @safe_x_pos = Object.const_get("#{game.class}::WIDTH") - 4 * Block::WIDTH
-      @safe_y_pos = Object.const_get("#{game.class}::HEIGHT") - 4 * Block::HEIGHT
-
+      @longest_edge = 4
       super(game: game)
     end
 

@@ -12,44 +12,26 @@ module Pieces
 
     private
 
-    def redraw_north
-      redraw_tall
-    end
-
-    def redraw_east
-      redraw_flat
-    end
-
-    def redraw_south
-      redraw_tall
-    end
-
-    def redraw_west
-      redraw_flat
-    end
-
-    def redraw_flat
-      center_block = @blocks.detect(&:center)
-
-      x = get_safe_x(point: center_block.x)
-      y = get_safe_y(point: center_block.y)
-
+    def redraw_north(x: x, y: y)
       @blocks = 4.times.collect do |i|
         center = i == 2
         Block.new(x: x + i*Block::WIDTH, y: y, piece: self, center: center)
       end
     end
 
-    def redraw_tall
-      center_block = @blocks.detect(&:center)
-
-      x = get_safe_x(point: center_block.x)
-      y = get_safe_y(point: center_block.y)
-
+    def redraw_east(x: x, y: y)
       @blocks = 4.times.collect do |i|
         center = i == 2
         Block.new(x: x, y: y + i*Block::HEIGHT, piece: self, center: center)
       end
+    end
+
+    def redraw_south(x: x, y: y)
+      redraw_north(x: x, y: y)
+    end
+
+    def redraw_west(x: x, y: y)
+      redraw_east(x: x, y: y)
     end
   end
 end

@@ -81,15 +81,20 @@ module Pieces
     end
 
     def apply_rotation
+      center_block = @blocks.detect(&:center)
+
+      x = get_safe_x(point: center_block.x)
+      y = get_safe_y(point: center_block.y)
+
       case @direction
       when 'n'
-        redraw_north
+        redraw_north(x: x, y: y)
       when 'e'
-        redraw_east
+        redraw_east(x: x, y: y)
       when 's'
-        redraw_south
+        redraw_south(x: x, y: y)
       when 'w'
-        redraw_west
+        redraw_west(x: x, y: y)
       end
     end
 

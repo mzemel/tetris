@@ -20,12 +20,7 @@ module Pieces
     # +--+   |
     # |      |
     # +------+
-    def redraw_north
-      center_block = @blocks.detect(&:center)
-
-      x = get_safe_x(point: center_block.x)
-      y = get_safe_y(point: center_block.y)
-
+    def redraw_north(x: x, y: y)
       @blocks = []
       @blocks << Block.new(x: x, y: y - Block::HEIGHT, piece: self, center: false)
       @blocks << Block.new(x: x, y: y, piece: self, center: true)
@@ -38,12 +33,7 @@ module Pieces
     # +  *-------+
     # |     •    |
     # +----------+
-    def redraw_east
-      center_block = @blocks.detect(&:center)
-
-      x = get_safe_x(point: center_block.x)
-      y = get_safe_y(point: center_block.y)
-
+    def redraw_east(x: x, y: y)
       @blocks = []
       @blocks << Block.new(x: x - Block::WIDTH, y: y, piece: self, center: false)
       @blocks << Block.new(x: x, y: y, piece: self, center: true)
@@ -59,12 +49,7 @@ module Pieces
     # |   |
     # |   |
     # +---+
-    def redraw_south
-      center_block = @blocks.detect(&:center)
-
-      x = get_safe_x(point: center_block.x)
-      y = get_safe_y(point: center_block.y)
-
+    def redraw_south(x: x, y: y)
       @blocks = []
       @blocks << Block.new(x: x + Block::WIDTH, y: y - Block::HEIGHT, piece: self, center: false)
       @blocks << Block.new(x: x, y: y - Block::HEIGHT, piece: self, center: false)
@@ -77,12 +62,7 @@ module Pieces
     # +  *-------+
     # |     •    |
     # +----------+
-    def redraw_west
-      center_block = @blocks.detect(&:center)
-
-      x = get_safe_x(point: center_block.x)
-      y = get_safe_y(point: center_block.y)
-
+    def redraw_west(x: x, y: y)
       @blocks = []
       @blocks << Block.new(x: x - Block::WIDTH, y: y, piece: self, center: false)
       @blocks << Block.new(x: x, y: y, piece: self, center: true)

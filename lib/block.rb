@@ -1,15 +1,16 @@
 class Block
-  attr_accessor :x, :y
+  attr_accessor :x, :y, :center
   attr_reader :image, :piece
 
   HEIGHT = 50
   WIDTH = 50
 
-  def initialize(x: x, y: y, piece: piece)
+  def initialize(x: x, y: y, piece: piece, center: center)
     @image = Gosu::Image.new("assets/block.png")
     @x = x
     @y = y
     @piece = piece
+    @center = center
   end
 
   def move_left

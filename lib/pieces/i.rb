@@ -3,9 +3,10 @@ module Pieces
 
     def initialize(game: game)
       @blocks = 4.times.collect do |i|
-        Block.new(x: 0, y: i*Block::HEIGHT, piece: self)
+        center = i == 2
+        Block.new(x: 0, y: i*Block::HEIGHT, piece: self, center: center)
       end
-      @longest_edge = 4
+      @radius = 4
       super(game: game)
     end
 
@@ -28,27 +29,26 @@ module Pieces
     end
 
     def redraw_flat
-      top_block = @blocks.sort{|a, b| a.y <=> b.y}.first
-      x_pos = if top_block.x <= @safe_x_pos
-          top_block.x
-        else
-          @safe_x_pos
-        end
+      center_block = @blocks.detect(&:center)
+
+      x = get_safe_x(point: center_block.x)
+      y = get_safe_y(point: center_block.y)
 
       @blocks = 4.times.collect do |i|
-        Block.new(x: x_pos+ i*Block::WIDTH, y: top_block.y, piece: self)
+        center = i == 2
+        Block.new(x: x + i*Block::WIDTH, y: y, piece: self, center: center)
       end
     end
 
     def redraw_tall
-      left_block = @blocks.sort{|a, b| a.x <=> b.x}.first
-      y_pos = if left_block.y <= @safe_y_pos
-          left_block.y
-        else
-          @safe_y_pos
-        end
+      center_block = @blocks.detect(&:center)
+
+      x = get_safe_x(point: center_block.x)
+      y = get_safe_y(point: center_block.y)
+
       @blocks = 4.times.collect do |i|
-        Block.new(x: left_block.x, y: y_pos + i*Block::HEIGHT, piece: self)
+        center = i == 2
+        Block.new(x: x, y: y + i*Block::HEIGHT, piece: self, center: center)
       end
     end
   end

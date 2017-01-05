@@ -16,9 +16,10 @@ class Utility
     @counter % move_rate == 0
   end
 
+  # reset cooldown so it can fire immediately when pressed; otherwise, rate limit
   def self.can_rotate?
     if @counter % rotate_rate == 0
-      @cooldown = true
+      @cooldown = true 
     end
     if @counter % rotate_rate == 0 || @cooldown
       @cooldown = false
@@ -27,7 +28,6 @@ class Utility
       false
     end
   end
-
 
   def self.left_button?
     Gosu::button_down?(Gosu::KbLeft) || Gosu::button_down?(Gosu::GpLeft)

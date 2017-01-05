@@ -8,17 +8,13 @@ module Pieces
     def initialize(game: game)
       @game = game
       @state = :active
-      @longest_edge ||= 0
-
-      # Farthest x or y can be to rotate and keep all blocks on the board
-      @safe_x_pos = Object.const_get("#{game.class}::WIDTH")  - @longest_edge * Block::WIDTH
-      @safe_y_pos = Object.const_get("#{game.class}::HEIGHT") - @longest_edge * Block::HEIGHT
+      @radius ||= 0
 
       @direction = DIRECTIONS.first
     end
 
     def update
-      apply_rotation # Should feel quicker than movement; has its own rate
+      rotate # Should feel quicker than movement; has its own rate
       return unless active? && Utility.can_move?
 
       @collisions = CollisionDetector.new(
@@ -31,7 +27,6 @@ module Pieces
         game.row_clearer.clear_applicable # Move to tetris.rb?
       else
         apply_movements
-        # apply_rotation
         move_down if Utility.down_button? # remove conditional after debugging
       end
     end
@@ -66,10 +61,26 @@ module Pieces
     ####
     # Rotation
 
-    def apply_rotation
+    def rotate
       return unless active? && Utility.can_rotate?
+
       rotate_clockwise        if Utility.x_button?
       rotate_counterclockwise if Utility.z_button?
+    end
+
+    def rotate_clockwise
+      index = DIRECTIONS.reverse.index(@direction) || 0
+      @direction = DIRECTIONS.reverse[index - 1]
+      apply_rotation
+    end
+
+    def rotate_counterclockwise
+      index = DIRECTIONS.index(@direction) || 0
+      @direction = DIRECTIONS[index - 1]
+      apply_rotation
+    end
+
+    def apply_rotation
       case @direction
       when 'n'
         redraw_north
@@ -82,14 +93,24 @@ module Pieces
       end
     end
 
-    def rotate_clockwise
-      index = DIRECTIONS.index(@direction) || 0
-      @direction = DIRECTIONS[index + 1]
+    def get_safe_x(point: point)
+      if point - Block::WIDTH * @radius < 0
+        Block::WIDTH * @radius
+      elsif point - Block::WIDTH * @radius > 400 # Replace with Tetris::WIDTH
+        400 - Block::WIDTH * @radius
+      else
+        point
+      end
     end
 
-    def rotate_counterclockwise
-      index = DIRECTIONS.index(@direction) || 0
-      @direction = DIRECTIONS[index - 1]
+    def get_safe_y(point: point)
+      if point - Block::HEIGHT * @radius < 0
+        Block::HEIGHT * @radius
+      elsif point - Block::HEIGHT * @radius > 800 # Replace with Tetris::HEIGHT
+        800 - Block::HEIGHT * @radius
+      else
+        point
+      end
     end
 
     ####

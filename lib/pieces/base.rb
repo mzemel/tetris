@@ -12,18 +12,20 @@ module Pieces
     end
 
     def update
-      if Utility.can_move?
-        collisions = CollisionDetector.new(
-          piece: self,
-          other_pieces: game.pieces.reject {|p| p == self}
-        ).check
-        apply_movements(collisions)
+      return unless active? && Utility.can_move?
+
+      @collisions = CollisionDetector.new(
+        piece: self,
+        other_pieces: game.pieces.reject {|p| p == self}
+      ).check
+
+      if @collisions.include?(:down)
+        deactivate
+        game.row_clearer.clear_applicable # Move to tetris.rb?
+      else
+        apply_movements
         apply_rotation
-        if collisions.include?(:down)
-          deactivate
-          game.row_clearer.clear_applicable # Move to tetris.rb?
-        end
-        move_down if active?
+        move_down
       end
     end
 
@@ -34,9 +36,9 @@ module Pieces
     ####
     # Movement
 
-    def apply_movements(collisions)
-      move_left if Utility.left_button? && !collisions.include?(:left)
-      move_right if Utility.right_button? && !collisions.include?(:right)
+    def apply_movements
+      move_left if Utility.left_button? && !@collisions.include?(:left)
+      move_right if Utility.right_button? && !@collisions.include?(:right)
     end
 
     def move_left
@@ -58,7 +60,6 @@ module Pieces
     # Rotation
 
     def apply_rotation
-      # return unless active?
       rotate_clockwise        if Utility.x_button?
       rotate_counterclockwise if Utility.z_button?
       case @direction

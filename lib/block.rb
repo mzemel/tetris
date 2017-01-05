@@ -5,8 +5,8 @@ class Block
   HEIGHT = 50
   WIDTH = 50
 
-  def initialize(x: x, y: y, piece: piece, center: center)
-    @image = Gosu::Image.new("assets/block.png")
+  def initialize(x: x, y: y, piece: piece, center: center, asset: asset)
+    @image = Gosu::Image.new("assets/#{asset}")
     @x = x
     @y = y
     @piece = piece

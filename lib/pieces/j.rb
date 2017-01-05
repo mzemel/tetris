@@ -2,11 +2,7 @@ module Pieces
   class J < Base
 
     def initialize(game: game)
-      @blocks = []
-      @blocks << Block.new(x: 0, y: 0, piece: self, center: false)
-      @blocks << Block.new(x: 50, y: 0, piece: self, center: false)
-      @blocks << Block.new(x: 50, y: 50, piece: self, center: true)
-      @blocks << Block.new(x: 50, y: 100, piece: self, center: false)
+      redraw_north(x: 0, y: Block::HEIGHT)
       @radius = 2
       super(game: game)
     end

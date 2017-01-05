@@ -8,5 +8,12 @@ module Pieces
       end.flatten
       super(game: game)
     end
+
+    private
+
+    def redraw_north; end
+    def redraw_east; end
+    def redraw_south; end
+    def redraw_west; end
   end
 end

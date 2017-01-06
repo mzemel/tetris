@@ -27,6 +27,7 @@ class Tetris < Gosu::Window
         @pieces << Pieces.random(game: self)
       end
       pieces.select(&:active?).each(&:update)
+      HeadTracer.new(game: self).trace!
       check_game_over
     end
   end

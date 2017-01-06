@@ -1,19 +1,47 @@
 module Pieces
   class O < Base
     def initialize(game: game)
-      @blocks = 2.times.collect do |i|
-        2.times.collect do |j|
-          Block.new(x: i*Block::WIDTH, y: j*Block::WIDTH, piece: self, center: true)
-        end
-      end.flatten
+      redraw_north(x: Block::WIDTH, y: Block::HEIGHT)
+      @radius = 2
       super(game: game)
     end
 
     private
 
-    def redraw_north(x: x, y: y); end
-    def redraw_east(x: x, y: y); end
-    def redraw_south(x: x, y: y); end
-    def redraw_west(x: x, y: y); end
+    # +----+
+    # |    |
+    # |  * |
+    # +----+
+    def redraw_north(x: x, y: y)
+      @blocks = []
+      @blocks << Block.new(x: x - Block::WIDTH, y: y - Block::HEIGHT, piece: self, center: false, asset: "head_north.png")
+      @blocks << Block.new(x: x - Block::WIDTH, y: y, piece: self, center: false, asset: "12_3.png")
+      @blocks << Block.new(x: x, y: y, piece: self, center: true, asset: "9_12.png")
+      @blocks << Block.new(x: x, y: y - Block::HEIGHT, piece: self, center: false, asset: "tail_north.png")
+    end
+
+    def redraw_east(x: x, y: y)
+      @blocks = []
+      @blocks << Block.new(x: x - Block::WIDTH, y: y - Block::HEIGHT, piece: self, center: false, asset: "3_6.png")
+      @blocks << Block.new(x: x - Block::WIDTH, y: y, piece: self, center: false, asset: "12_3.png")
+      @blocks << Block.new(x: x, y: y, piece: self, center: true, asset: "tail_east.png")
+      @blocks << Block.new(x: x, y: y - Block::HEIGHT, piece: self, center: false, asset: "head_east.png")
+    end
+
+    def redraw_south(x: x, y: y)
+      @blocks = []
+      @blocks << Block.new(x: x - Block::WIDTH, y: y - Block::HEIGHT, piece: self, center: false, asset: "3_6.png")
+      @blocks << Block.new(x: x - Block::WIDTH, y: y, piece: self, center: false, asset: "tail_south.png")
+      @blocks << Block.new(x: x, y: y, piece: self, center: true, asset: "head_south.png")
+      @blocks << Block.new(x: x, y: y - Block::HEIGHT, piece: self, center: false, asset: "6_9.png")
+    end
+
+    def redraw_west(x: x, y: y)
+      @blocks = []
+      @blocks << Block.new(x: x - Block::WIDTH, y: y - Block::HEIGHT, piece: self, center: false, asset: "tail_west.png")
+      @blocks << Block.new(x: x - Block::WIDTH, y: y, piece: self, center: false, asset: "head_west.png")
+      @blocks << Block.new(x: x, y: y, piece: self, center: true, asset: "9_12.png")
+      @blocks << Block.new(x: x, y: y - Block::HEIGHT, piece: self, center: false, asset: "6_9.png")
+    end
   end
 end

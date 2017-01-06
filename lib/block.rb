@@ -1,11 +1,12 @@
 class Block
   attr_accessor :x, :y, :center
-  attr_reader :image, :piece
+  attr_reader :image, :piece, :asset
 
   HEIGHT = 50
   WIDTH = 50
 
   def initialize(x: x, y: y, piece: piece, center: center, asset: asset)
+    @asset = asset
     @image = Gosu::Image.new("assets/#{asset}")
     @x = x
     @y = y

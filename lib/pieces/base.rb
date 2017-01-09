@@ -23,8 +23,9 @@ module Pieces
       ).check
 
       if @collisions.include?(:down)
-        deactivate
-        game.row_clearer.clear_applicable # Move to tetris.rb?
+        deactivate!
+        RowClearer.new(game: game).clear!
+        CircuitTracer.new(game: game).trace!
       else
         apply_movements
         move_down if Utility.down_button? # remove conditional after debugging
@@ -101,8 +102,8 @@ module Pieces
     def get_safe_x(point: point)
       if point - Block::WIDTH * @radius < 0
         Block::WIDTH * @radius
-      elsif point - Block::WIDTH * @radius > 400 # Replace with Tetris::WIDTH
-        400 - Block::WIDTH * @radius
+      elsif point - Block::WIDTH * @radius > Tetris::WIDTH # Replace with Tetris::WIDTH
+        Tetris::WIDTH - Block::WIDTH * @radius
       else
         point
       end
@@ -129,7 +130,7 @@ module Pieces
       !active?
     end
 
-    def deactivate
+    def deactivate!
       @state = :inactive
     end
 

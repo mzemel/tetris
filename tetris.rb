@@ -6,7 +6,7 @@ class Tetris < Gosu::Window
   WIDTH = 400
   HEIGHT = 800
 
-  attr_reader :background_image, :pieces, :row_clearer, :game_over
+  attr_reader :background_image, :pieces, :game_over
 
   def initialize
     super WIDTH, HEIGHT
@@ -14,7 +14,6 @@ class Tetris < Gosu::Window
 
     @background_image = BackgroundImage.new
     @pieces = []
-    @row_clearer = RowClearer.new(game: self)
     @game_over = false
   end
 
@@ -27,7 +26,6 @@ class Tetris < Gosu::Window
         @pieces << Pieces.random(game: self)
       end
       pieces.select(&:active?).each(&:update)
-      HeadTracer.new(game: self).trace!
       check_game_over
     end
   end

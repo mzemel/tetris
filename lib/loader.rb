@@ -4,7 +4,7 @@ require_relative "utility"
 require_relative "pieces"
 require_relative "row_clearer"
 require_relative "collision_detector"
-require_relative "head_tracer"
+require_relative "circuit_tracer"
 
 %w(base i j l o s t z).each do |f|
   require_relative "pieces/#{f}"

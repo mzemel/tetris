@@ -17,6 +17,7 @@ class RowClearer
     rows.each do |row|
       blocks_in_row(row).each { |block| block.destroy }
       all_pieces_above_row(row).each { |piece| piece.sink(row) }
+      Score.add(100)
     end
   end
 

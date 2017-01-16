@@ -14,6 +14,11 @@ class Block
     @center = center
   end
 
+  def asset=(asset)
+    @asset = asset
+    @image = Gosu::Image.new("assets/#{asset}")
+  end
+
   def move_left
     @x -= Utility::PX_PER_MOVE
   end

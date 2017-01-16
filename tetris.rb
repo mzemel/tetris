@@ -15,6 +15,7 @@ class Tetris < Gosu::Window
     @background_image = BackgroundImage.new
     @pieces = []
     @game_over = false
+    @score_boxes = 2.times.collect { Gosu::Font.new(20) }
   end
 
   def update
@@ -33,6 +34,7 @@ class Tetris < Gosu::Window
   def draw
     background_image.draw
     pieces.each(&:draw)
+    display_scores
   end
 
   private
@@ -43,6 +45,25 @@ class Tetris < Gosu::Window
 
   def handle_game_over
     puts "Game Over!"
+  end
+
+  def display_scores
+    @score_boxes.first.draw(
+      "Score: #{Score.score}",
+      Tetris::WIDTH - 2*Block::WIDTH,
+      Block::HEIGHT - 10,
+      1,
+      1.0,
+      1.0,
+      0xff_ffff00)
+    @score_boxes.last.draw(
+      "Longest: #{Score.longest}",
+      Tetris::WIDTH - 2*Block::WIDTH,
+      Block::HEIGHT + 10,
+      1,
+      1.0,
+      1.0,
+      0xff_ffff00)
   end
 end
 

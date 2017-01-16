@@ -11,7 +11,6 @@ class CircuitTracer
     game.pieces.reject(&:active?).each do |piece|
       next unless head = piece.blocks.detect { |b| b.asset.match /head/ }
       result = trace_recursively(current: head, count: 1, direction: nil, original: 'head')
-      puts result[0]
       handle_complete(result) if result[0] != 'Incomplete'
     end
   end
@@ -87,8 +86,9 @@ class CircuitTracer
   end
 
   def handle_complete(result)
-    # Increase score
-    # Display type of circuit
+    if result[1] > Score.longest
+      Score.longest = result[1]
+    end
     # Clear circuit
     # Call RowClearer to clear blocks and sink pieces above
   end

@@ -25,6 +25,7 @@ module Pieces
       if @collisions.include?(:down)
         deactivate!
         RowClearer.new(game: game).clear!
+        Fuser.new(game: game).fuse!
         CircuitTracer.new(game: game).trace!
       else
         apply_movements
